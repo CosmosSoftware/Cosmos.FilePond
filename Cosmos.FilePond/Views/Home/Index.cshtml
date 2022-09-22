@@ -1,0 +1,51 @@
+﻿@model Case
+@{
+    ViewData["Title"] = "Home Page";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+
+<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
+<!-- On your page -->
+<input type="file"
+       class="filepond"
+       id="filepond"
+       name="files" data-file-metadata-path="/pub/folder"
+       multiple>
+
+<!-- Before the end of the body tag -->
+<script src="https://unpkg.com/filepond-plugin-file-metadata/dist/filepond-plugin-file-metadata.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script>
+
+    // Get a reference to the file input element
+    const inputElement = document.querySelector('input[type="file"]');
+
+    // Register meta data Plug In
+    FilePond.registerPlugin(FilePondPluginFileMetadata);
+
+    // Create a FilePond instance
+    const pond = FilePond.create(inputElement, {
+        chunkUploads: true,
+        chunkSize: 100,
+        chunkForce: true
+    });
+
+    FilePond.setOptions({
+        server: '@Url.Action("Process", "Home")'
+    });
+
+    $(document).ready(function () {
+        var headers = new Headers();
+        headers.append("ccms-folder-path", "/Test/This");
+    });
+
+</script>
